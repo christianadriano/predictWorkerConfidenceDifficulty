@@ -20,6 +20,12 @@ source("C://Users//chris//OneDrive//Documentos//GitHub//workerConfidenceTrees//l
 dataf <- loadAnswers("answerList_data.csv");
 summary(dataf$Answer.confidence)
 
+
+#Remove NO AND IDK ANSWERS
+dataf <- dataf [!(dataf$Answer.option=="IDK") ,];
+dataf <- dataf [!(dataf$Answer.option=="YES") ,];
+summary(dataf$Answer.option);
+
 ##
 # Train model
 
@@ -40,13 +46,21 @@ dataf.rows <- dataf[order(g),]
 #Confidence prediction
 model1 = rpart(Answer.confidence ~ Worker.profession + Worker.score, data = dataf.rows[1:1134,], method="class")
 rpart.plot(model1)
-model2 = rpart(Answer.confidence ~ Code.complexity + Code.LOC, data = dataf.rows[1:1134,], method="class")
+
+model2 = rpart(Answer.confidence ~ Code.complexity + Code.LOC, data = dataf.rows[1:1134,], method="class",
+               control=rpart.control( minsplit = 10 ));
+new.fit <- prp(model2,snip=TRUE)$obj #Enables to manually prune decision nodes
+fancyRpartPlot(new.fit)
+
 rpart.plot(model2)
 
 ## Difficulty prediction
 model3 = rpart(Answer.difficulty ~ Worker.profession + Worker.score, data = dataf.rows[1:1134,], method="class")
 fancyRpartPlot(model3)
-model4 = rpart(Answer.difficulty ~ Code.complexity + Code.LOC, data = dataf.rows[1:1134,], method="class")
+model4 = rpart(Answer.confidence ~ Code.complexity + Code.LOC, data = dataf.rows[1:1134,], method="class", 
+               control=rpart.control( minsplit = 10 ));
+new.fit <- prp(model4,snip=TRUE)$obj #Enables to manually prune decision nodes
+fancyRpartPlot(new.fit)
 fancyRpartPlot(model4) #rpart.plot(model4)
 
 
