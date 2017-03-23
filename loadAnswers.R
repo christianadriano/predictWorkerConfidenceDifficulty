@@ -3,7 +3,7 @@
 
 loadAnswers<- function(fileName){
   
-  setwd("C://Users//chris//OneDrive//Documentos//GitHub//workerConfidenceTrees//");
+  setwd("C://Users//chris//OneDrive//Documentos//GitHub//randomForestWorkerConfidenceDifficulty//");
   
   data_all <- read.csv(fileName,header = TRUE,sep=",");
   
