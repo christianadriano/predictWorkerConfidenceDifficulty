@@ -3,8 +3,14 @@
 # the following features: size of source code, complexity, worker skill, 
 # profession, Years of Experience, Gender, Age, and Question type.
 
-library(rpart)
+
 install.packages("rpart.plot")
+install.packages('rattle')
+install.packages('rpart.plot')
+install.packages('RColorBrewer')
+library(rpart)
+library(RColorBrewer)
+library(rattle)
 library(rpart.plot) 
 
 source("C://Users//chris//OneDrive//Documentos//GitHub//workerConfidenceTrees//loadAnswers.R");
@@ -39,10 +45,9 @@ rpart.plot(model2)
 
 ## Difficulty prediction
 model3 = rpart(Answer.difficulty ~ Worker.profession + Worker.score, data = dataf.rows[1:1134,], method="class")
-rpart.plot(model3)
+fancyRpartPlot(model3)
 model4 = rpart(Answer.difficulty ~ Code.complexity + Code.LOC, data = dataf.rows[1:1134,], method="class")
-rpart.plot(model4)
-
+fancyRpartPlot(model4) #rpart.plot(model4)
 
 
 #Complexity does not seem to be able to partitiion confidence
